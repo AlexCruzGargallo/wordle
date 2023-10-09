@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Agrega tus clases de animación */
 @keyframes flip {
   0% {
     transform: scaleY(1);
@@ -16,5 +15,5 @@
 }
 
 #rotatingDiv {
-  animation: flip 0.5s ease; /* Cambia la duración y el valor "infinite" según tus preferencias */
+  animation: flip 0.5s ease;
 }

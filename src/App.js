@@ -117,51 +117,57 @@ function App() {
             height={height}
           />
         )}
+
         <h1 className="font-bold text-3xl m-5 dark:text-white tracking-wider">
           WORDLE
         </h1>
-        <div className="flex justify-between ml-0 mr-auto gap-2">
-          <div
-            onClick={handleTheme}
-            className="w-8 sm:w-11 md:w-10 h-10 sm:h-11 md:h-10 rounded bg-[#ebedf3] flex items-center justify-center capitalize font-bold cursor-pointer select-none hover:bg-[#e6f3e6] hover:text-[#57ac57] focus:bg-[#ebedf3] dark:bg-[#40445c] dark:text-white dark:hover:text-[#7bd27b] dark:hover:bg-[#2a402f] text-xl transition-all duration-300 ease-in-out"
-          >
-            {dark ? <FaRegMoon /> : <BiSun />}
+        <div>
+          <div className="flex mb-5 ml-0 mr-auto gap-2">
+            <div
+              onClick={handleTheme}
+              className="w-8 sm:w-11 md:w-10 h-10 sm:h-11 md:h-10 rounded bg-[#ebedf3] flex items-center justify-center capitalize font-bold cursor-pointer select-none hover:bg-[#e6f3e6] hover:text-[#57ac57] focus:bg-[#ebedf3] dark:bg-[#40445c] dark:text-white dark:hover:text-[#7bd27b] dark:hover:bg-[#2a402f] text-xl transition-all duration-300 ease-in-out"
+            >
+              {dark ? <FaRegMoon /> : <BiSun />}
+            </div>
+            <div
+              onClick={handlePlayAgain}
+              className="w-8 sm:w-11 md:w-10 h-10 sm:h-11 md:h-10 rounded bg-[#ebedf3] flex items-center justify-center capitalize font-bold cursor-pointer select-none hover:bg-[#e6f3e6] hover:text-[#57ac57] focus:bg-[#dce1ed] dark:bg-[#40445c] dark:text-white dark:hover:text-[#7bd27b] dark:hover:bg-[#2a402f] text-xl transition-all duration-300 ease-in-out"
+            >
+              <BiRefresh />
+            </div>
           </div>
-          <div
-            onClick={handlePlayAgain}
-            className="w-8 sm:w-11 md:w-10 h-10 sm:h-11 md:h-10 rounded bg-[#ebedf3] flex items-center justify-center capitalize font-bold cursor-pointer select-none hover:bg-[#e6f3e6] hover:text-[#57ac57] focus:bg-[#dce1ed] dark:bg-[#40445c] dark:text-white dark:hover:text-[#7bd27b] dark:hover:bg-[#2a402f] text-xl transition-all duration-300 ease-in-out"
-          >
-            <BiRefresh />
+          <div className="flex flex-col text-center justify-center items-center">
+            <Board word={word} answers={answers} tries={tries} />
+            {isGuessed && <div className="dark:text-white">Has ganado! 🥳</div>}
+            {!isGuessed && tries >= 6 && (
+              <div className="dark:text-white">Has perdido. 😭</div>
+            )}
           </div>
+
+          <Keyboard
+            word={word}
+            answers={guesses}
+            onClick={addCharToAnswer}
+            onDelete={deleteChar}
+            onSubmit={enterResult}
+          />
+          {showModalWin && (
+            <Modal onClose={handleClose} actionBar={actionBar}>
+              Enhorabuena, has ganado!
+            </Modal>
+          )}
+          {showModalNotWord && (
+            <Modal onClose={handleClose}>Palabra no encontrada.</Modal>
+          )}
+          {showModalLose && (
+            <Modal onClose={handleClose} actionBar={actionBar}>
+              <p>
+                Lo siento, has perdido. 😭 <br />
+                <br /> La palabra era "<b className="uppercase">{word}</b>"
+              </p>
+            </Modal>
+          )}
         </div>
-        <Board word={word} answers={answers} tries={tries} />
-        {isGuessed && <div className="dark:text-white">Has ganado! 🥳</div>}
-        {!isGuessed && tries >= 6 && (
-          <div className="dark:text-white">Has perdido. 😭</div>
-        )}
-        <Keyboard
-          word={word}
-          answers={guesses}
-          onClick={addCharToAnswer}
-          onDelete={deleteChar}
-          onSubmit={enterResult}
-        />
-        {showModalWin && (
-          <Modal onClose={handleClose} actionBar={actionBar}>
-            Enhorabuena, has ganado!
-          </Modal>
-        )}
-        {showModalNotWord && (
-          <Modal onClose={handleClose}>Palabra no encontrada.</Modal>
-        )}
-        {showModalLose && (
-          <Modal onClose={handleClose} actionBar={actionBar}>
-            <p>
-              Lo siento, has perdido. 😭 <br />
-              <br /> La palabra era "<b className="uppercase">{word}</b>"
-            </p>
-          </Modal>
-        )}
       </div>
     </div>
   );
